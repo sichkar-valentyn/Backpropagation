@@ -1,0 +1,427 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/Backpropagation/assets/css/style.css?v=869523b4d60e39838d4042cc645e73bf7f95a5ab">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Backpropagation in Neural Network (NN) with Python | Backpropagation</title>
+<meta name="generator" content="Jekyll v3.7.4" />
+<meta property="og:title" content="Backpropagation in Neural Network (NN) with Python" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Backpropagation" />
+<meta property="og:description" content="Backpropagation" />
+<link rel="canonical" href="https://sichkar-valentyn.github.io/Backpropagation/" />
+<meta property="og:url" content="https://sichkar-valentyn.github.io/Backpropagation/" />
+<meta property="og:site_name" content="Backpropagation" />
+<script type="application/ld+json">
+{"@type":"WebSite","headline":"Backpropagation in Neural Network (NN) with Python","url":"https://sichkar-valentyn.github.io/Backpropagation/","name":"Backpropagation","description":"Backpropagation","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/sichkar-valentyn/Backpropagation">View on GitHub</a>
+
+          <h1 id="project_title">Backpropagation, yeap</h1>
+          <h2 id="project_tagline">Backpropagation</h2>
+
+          
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1 id="backpropagation-in-neural-network-nn-with-python">Backpropagation in Neural Network (NN) with Python</h1>
+<p>Explaining backpropagation on the three layer NN in Python using <b>numpy</b> library.
+<br /><a href="https://doi.org/10.5281/zenodo.1317904"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1317904.svg" alt="DOI" /></a></p>
+
+<h2 id="content">Content</h2>
+<p>Theory and experimental results (on this page):</p>
+
+<ul>
+  <li><a href="#three-layers-nn">Three Layers NN</a></li>
+  <li><a href="#mathematical-calculations">Mathematical calculations</a></li>
+  <li><a href="#backpropagation">Backpropagation</a></li>
+  <li><a href="#writing-a-code-in-python">Writing a code in Python</a></li>
+  <li><a href="#results">Results</a></li>
+  <li><a href="#analysis-of-results">Analysis of results</a></li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="three-layers-nn"><a id="three-layers-nn">Three Layers NN</a></h3>
+<p>In order to solve more complex tasks, apart from that was described in the <a href="https://github.com/sichkar-valentyn/Neural_Networks_for_Computer_Vision/blob/master/Theory/Introduction.md">Introduction</a> part, it is needed to use more layers in the NN. In this case the weights will be updated sequentially from the last layer to the input layer with respect to the confidance of the current results. This approach is called <strong>Backpropagation</strong>.
+<br /><br />Consider three layers NN.
+<br />On the figure below the NN is shown.
+<br />It has <strong>Input layer</strong> (Layer 0), <strong>Hidden Layer</strong> (Layer 1), <strong>Output Layer</strong> (Layer 2).
+<br />In the <strong>Layer 0</strong> there are three parameters to be considered, in the <strong>Layer 1</strong> there are four Hidden Neurons and in the <strong>Layer 2</strong> there is one Output Neuron.
+<br /><br /></p>
+
+<p><img src="https://github.com/sichkar-valentyn/Neural_Networks_for_Computer_Vision/blob/master/images/three_layers_NN.png" alt="Three_layers_NN" /></p>
+
+<p><br />Consider the same inputs from <a href="https://github.com/sichkar-valentyn/Neural_Networks_for_Computer_Vision/blob/master/Theory/Introduction.md">Introduction</a> part.
+<br /><b>Training sets</b> and <b>Desired results</b> are shown below.</p>
+<ul>
+  <li>Set of inputs #1 = 1 1 1; Output #1 = 1</li>
+  <li>Set of inputs #2 = 1 0 1; Output #2 = 1</li>
+  <li>Set of inputs #3 = 0 0 1; Output #3 = 0</li>
+  <li>Set of inputs #4 = 0 1 1; Output #4 = 0</li>
+</ul>
+
+<p><b>Testing set</b> is shown below.</p>
+<ul>
+  <li>Set of inputs #5 = 1 0 0&lt;/b&gt;</li>
+</ul>
+
+<p><strong>Weights 0-1</strong> corresponds to the weights between Layer 0 and Layer 1.
+<br /><strong>Weights 1-2</strong> corresponds to the weights between Layer 1 and Layer 2.</p>
+
+<p><br /></p>
+
+<h3 id="mathematical-calculations"><a id="mathematical-calculations">Mathematical calculations</a></h3>
+<p>By using matrices it is possible to calculate the output for each set of inputs.
+<br />On the figure below operations between matrices are shown.</p>
+
+<p><img src="https://github.com/sichkar-valentyn/Neural_Networks_for_Computer_Vision/blob/master/images/matrices_for_three_layers_NN.png" alt="Matrices_for_three_layers_NN.png" /></p>
+
+<p><br />First matrix corresponds to the inputs (Layer 0) and is multiplied by matrix of weights. As a result, the matrix with values for hidden layer (Layer 1) received which is further multiplied by another matrix of weights. And matrix with outputs (Layer 2) finally received.</p>
+
+<p><br /></p>
+
+<h3 id="backpropagation"><a id="backpropagation">Backpropagation</a></h3>
+<p>Updating the weights is the process of adjusting or training the NN in order to get more accurate result. Backpropagation updates weights from last layer to the first layer.</p>
+<ul>
+  <li>Firstly, the <strong>error</strong> for the output <strong>Layer 2</strong> is calculated, which is the difference between desired output and received output, and this is the error for the last output layer (Layer 2): <br /><strong>layer_2_error = Desired data - Received data</strong></li>
+  <li>Secondly, the <strong>delta</strong> for the output <strong>Layer 2</strong> is calculated, which is used for correction the <strong>Weights 1-2</strong> and for finding the error for the hidden layer (Layer 1). The adjustments will be done in proportion to the value of error by using <strong>Sigmoid Gradient</strong> that was described in the <a href="https://github.com/sichkar-valentyn/Neural_Networks_for_Computer_Vision/blob/master/Theory/Introduction.md">Introduction</a> part and with respect to <a href="https://github.com/sichkar-valentyn/Neural_Networks_for_Computer_Vision/blob/master/Theory/Gradient_descent.md">Gradient descent</a>: <br /><strong>delta_2 = layer_2_error * layer_2 * (1 - layer_2)</strong></li>
+  <li>Thirdly, the <strong>error</strong> for the hidden <strong>Layer 1</strong> is calculated, multiplying <strong>delta_2</strong> by <strong>Weights 1-2</strong>. In this way the comparison of influence of the hidden layer (Layer 1) to the output error is evaluated: <br /><strong>layer_1_error = delta_2 * weights_1_2</strong></li>
+  <li>Finally, the <strong>delta</strong> for the hidden <strong>Layer 1</strong> is calculated for correction the <strong>Weights 1-2</strong>: <br /><strong>delta_1 = layer_1_error * layer_1 * (1 - layer_1)</strong></li>
+</ul>
+
+<p>Just steps are shown below:</p>
+<ul>
+  <li><strong>layer_2_error = Desired data - Received data</strong></li>
+  <li><strong>delta_2 = layer_2_error * layer_2 * (1 - layer_2)</strong></li>
+  <li><strong>layer_1_error = delta_2 * weights_1_2</strong></li>
+  <li><strong>delta_1 = layer_1_error * layer_1 * (1 - layer_1)</strong></li>
+</ul>
+
+<p>After the <strong>delta</strong>s for last (Layer 2) and hidden (Layer 1) layers were found, the weights are updated by multiplying matrices of outputs from layers on appropriate delta:</p>
+<ul>
+  <li><strong>weights_1_2 += Layer_1 * delta_2</strong></li>
+  <li><strong>weights_0_1 += Layer_0 * delta_1</strong></li>
+</ul>
+
+<p><br />On the figure below appropriate matrices are shown.</p>
+
+<p><img src="https://github.com/sichkar-valentyn/Neural_Networks_for_Computer_Vision/blob/master/images/matrices_for_three_layers_NN_1.png" alt="Matrices_for_three_layers_NN_1.png" /></p>
+
+<p><br /></p>
+
+<h3 id="writing-a-code-in-python"><a id="writing-a-code-in-python">Writing a code in Python</a></h3>
+<p>To write a code in Python for building and training three layers NN we will use <b>numpy</b> library to deal with matrices.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Creating a three layers NN by using mathematical 'numpy' library</span>
+<span class="c"># Using methods from the library to operate with matrices</span>
+
+<span class="c"># Importing 'numpy' library</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="c"># Importing 'matplotlib' library to plot experimental results in form of figures</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+
+<span class="c"># Creating a class for three layers Neural Network</span>
+<span class="k">class</span> <span class="nc">ThreeLayersNeuralNetwork</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># Using 'seed' for the random generator</span>
+        <span class="c"># It'll return the same random numbers each time the program runs</span>
+        <span class="c"># Very useful for debugging</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c"># Modeling three layers Neural Network</span>
+        <span class="c"># Input layer (Layer 0) has three parameters</span>
+        <span class="c"># Hidden layer (Layer 1) has four neurons</span>
+        <span class="c"># Output layer (Layer 2) has one neuron</span>
+        <span class="c"># Initializing weights between input and hidden layers</span>
+        <span class="c"># The values of the weights are in range from -1 to 1</span>
+        <span class="c"># We receive matrix 3x4 of weights (3 inputs in Layer 0 and 4 neurons in Layer 1)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights_0_1</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="c"># Initializing weights between hidden and output layers</span>
+        <span class="c"># The values of the weights are in range from -1 to 1</span>
+        <span class="c"># We receive matrix 4x1 of weights (4 neurons in Layer 1 and 1 neuron in Layer 2)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights_1_2</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="c"># Creating a variable for storing matrix with output results</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+    <span class="c"># Creating function for normalizing weights and other results by Sigmoid curve</span>
+    <span class="k">def</span> <span class="nf">normalizing_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+
+    <span class="c"># Creating function for calculating a derivative of Sigmoid function (gradient of Sigmoid curve)</span>
+    <span class="c"># Which is going to be used for back propagation - correction of the weights</span>
+    <span class="c"># This derivative shows how good is the current weights</span>
+    <span class="k">def</span> <span class="nf">derivative_of_sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="c"># Creating function for running and testing NN after training</span>
+    <span class="k">def</span> <span class="nf">run_nn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">set_of_inputs</span><span class="p">):</span>
+        <span class="c"># Feed forward through three layers in NN</span>
+        <span class="c"># Results are returned in normalized form in appropriate dimensions</span>
+        <span class="n">layer_0</span> <span class="o">=</span> <span class="n">set_of_inputs</span>  <span class="c"># matrix 1x3</span>
+        <span class="n">layer_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalizing_results</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">layer_0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights_0_1</span><span class="p">))</span>  <span class="c"># matrix 1x3 * matrix 3x4 = matrix 1x4</span>
+        <span class="n">layer_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalizing_results</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">layer_1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights_1_2</span><span class="p">))</span>  <span class="c"># matrix 1x4 * matrix 4x1 = matrix 1x1</span>
+        <span class="k">return</span> <span class="n">layer_2</span>
+
+    <span class="c"># Creating function for training the NN</span>
+    <span class="k">def</span> <span class="nf">training_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">set_of_inputs_for_training</span><span class="p">,</span> <span class="n">set_of_outputs_for_training</span><span class="p">,</span> <span class="n">iterations</span><span class="p">):</span>
+        <span class="c"># Training NN desired number of times</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+            <span class="c"># Feeding our NN with training set and calculating output</span>
+            <span class="c"># Feed forward through three layers in NN</span>
+            <span class="c"># With 'numpy' library and function 'dot' we multiply matrices with values in layers to appropriate weights</span>
+            <span class="c"># Results are returned in normalized form in appropriate dimensions</span>
+            <span class="n">layer_0</span> <span class="o">=</span> <span class="n">set_of_inputs_for_training</span>  <span class="c"># matrix 4x3</span>
+            <span class="n">layer_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalizing_results</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">layer_0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights_0_1</span><span class="p">))</span>  <span class="c"># matrix 4x3 * matrix 3x4 = matrix 4x4</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">layer_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalizing_results</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">layer_1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights_1_2</span><span class="p">))</span>  <span class="c"># matrix 4x4 * matrix 4x1 = matrix 4x1</span>
+
+            <span class="c"># Using Backpropagation for calculating values to correct weights</span>
+            <span class="c"># Calculating an error for output layer (Layer 2) which is the difference between desired output and obtained output</span>
+            <span class="c"># We subtract matrix 4x1 of received outputs from matrix 4x1 of desired outputs</span>
+            <span class="n">layer_2_error</span> <span class="o">=</span> <span class="n">set_of_outputs_for_training</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer_2</span>
+
+            <span class="c"># Showing the error each 500 iterations to track the improvements</span>
+            <span class="c"># Comment before analysis to prevent extra information to be shown</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">500</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">'Final error after'</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s">'iterations ='</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="nb">abs</span><span class="p">(</span><span class="n">layer_2_error</span><span class="p">)))</span>
+                <span class="c"># Final error after 0 iterations = 0.4685343254580603</span>
+                <span class="c"># Final error after 500 iterations = 0.027359665117498422</span>
+                <span class="c"># Final error after 1000 iterations = 0.018014239352682853</span>
+                <span class="c"># Final error after 1500 iterations = 0.01424538015492187</span>
+                <span class="c"># Final error after 2000 iterations = 0.01209811882788332</span>
+                <span class="c"># Final error after 2500 iterations = 0.01067390131321088</span>
+                <span class="c"># Final error after 3000 iterations = 0.009643630560125674</span>
+                <span class="c"># Final error after 3500 iterations = 0.008855140776037976</span>
+                <span class="c"># Final error after 4000 iterations = 0.008227317734746435</span>
+                <span class="c"># Final error after 4500 iterations = 0.007712523196874705</span>
+
+            <span class="c"># Calculating delta for output layer (Layer 2)</span>
+            <span class="c"># Using sign '*' instead of function 'dot' of numpy library</span>
+            <span class="c"># In this way matrix 4x1 will be multiplied by matrix 4x1 element by element</span>
+            <span class="c"># For example,</span>
+            <span class="c"># n = np.array([[1], [1], [1], [1]])</span>
+            <span class="c"># m = np.array([[2], [3], [4], [5]])</span>
+            <span class="c"># n * m = [[2], [3], [4], [5]]</span>
+            <span class="c"># That is what we need now for this case</span>
+            <span class="n">delta_2</span> <span class="o">=</span> <span class="n">layer_2_error</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">derivative_of_sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layer_2</span><span class="p">)</span>
+
+            <span class="c"># Calculating an error for hidden layer (Layer 1)</span>
+            <span class="c"># Multiplying delta_2 by weights between hidden layer and output layer</span>
+            <span class="c"># Shows us how much hidden layer (Layer 1) influences on to the layer_2_error</span>
+            <span class="n">layer_1_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">delta_2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights_1_2</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+            <span class="c"># Calculating delta for hidden layer (Layer 1)</span>
+            <span class="n">delta_1</span> <span class="o">=</span> <span class="n">layer_1_error</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">derivative_of_sigmoid</span><span class="p">(</span><span class="n">layer_1</span><span class="p">)</span>
+
+            <span class="c"># Implementing corrections of weights</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weights_1_2</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">layer_1</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">delta_2</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weights_0_1</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">layer_0</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">delta_1</span><span class="p">)</span>
+
+
+<span class="c"># Creating three layers NN by initializing of instance of the class</span>
+<span class="n">three_layers_neural_network</span> <span class="o">=</span> <span class="n">ThreeLayersNeuralNetwork</span><span class="p">()</span>
+
+<span class="c"># Showing the weights of synapses initialized from the very beginning randomly</span>
+<span class="c"># Weights 0-1 between input layer (Layer 0) and hidden layer (Layer 1)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Weights 0-1'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">three_layers_neural_network</span><span class="o">.</span><span class="n">weights_0_1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">()</span>
+<span class="c"># [[-0.16595599  0.44064899 -0.99977125 -0.39533485]</span>
+<span class="c">#  [-0.70648822 -0.81532281 -0.62747958 -0.30887855]</span>
+<span class="c">#  [-0.20646505  0.07763347 -0.16161097  0.370439  ]]</span>
+
+<span class="c"># Weights 1-2 between hidden layer (Layer 1) and output layer (Layer 2)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Weights 1-2'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">three_layers_neural_network</span><span class="o">.</span><span class="n">weights_1_2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">()</span>
+<span class="c"># [[-0.5910955 ]</span>
+<span class="c">#  [ 0.75623487]</span>
+<span class="c">#  [-0.94522481]</span>
+<span class="c">#  [ 0.34093502]]</span>
+
+<span class="c"># Creating a set of inputs and outputs for the training process</span>
+<span class="c"># Using function 'array' of the 'numpy' library</span>
+<span class="c"># Creating matrix 4x3</span>
+<span class="n">input_set_for_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="c"># Create matrix 1x4 and transpose it to matrix 4x1 at the same time</span>
+<span class="n">output_set_for_training</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c"># Starting the training process with data above and number of repetitions of 5000</span>
+<span class="n">three_layers_neural_network</span><span class="o">.</span><span class="n">training_process</span><span class="p">(</span><span class="n">input_set_for_training</span><span class="p">,</span> <span class="n">output_set_for_training</span><span class="p">,</span> <span class="mi">5000</span><span class="p">)</span>
+
+<span class="c"># Showing the output results after training</span>
+<span class="k">print</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Output results after training:'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">three_layers_neural_network</span><span class="o">.</span><span class="n">layer_2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">()</span>
+<span class="c"># [[0.99181271]</span>
+<span class="c">#  [0.9926379 ]</span>
+<span class="c">#  [0.00744159]</span>
+<span class="c">#  [0.00613513]]</span>
+
+<span class="c"># After training process was finished and weights are adjusted we can test NN</span>
+<span class="c"># The data for testing is [1, 0, 0]</span>
+<span class="c"># The expected output is 1</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Output result for testing data = '</span><span class="p">,</span> <span class="n">three_layers_neural_network</span><span class="o">.</span><span class="n">run_nn</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+
+<span class="c"># Congratulations! The output is equal to 0.99619533 which is very close to 1</span>
+<span class="c"># [0.99619533]</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="results"><a id="results">Results</a></h3>
+<p>Set of inputs and outputs for the training process:
+<br /><b>input_set_for_training = np.array([[1, 1, 1], [1, 0, 1], [0, 0, 1], [0, 1, 1]])</b>
+<br />The output set we transposes into the vector with function ‘T’:
+<br /><b>output_set_for_training = np.array([[1, 1, 0, 0]]).T</b></p>
+
+<p>Weights of synapses initialized from the very beginning randomly
+<br /><b>[[-0.16595599  0.44064899 -0.99977125 -0.39533485]
+<br />[-0.70648822 -0.81532281 -0.62747958 -0.30887855]
+<br />[-0.20646505  0.07763347 -0.16161097  0.370439  ]]</b></p>
+
+<p>Weights 1-2 between hidden layer (Layer 1) and output layer (Layer 2)
+<br /><b>[[-0.5910955 ]
+<br />[ 0.75623487]
+<br />[-0.94522481]
+<br />[ 0.34093502]]</b></p>
+
+<p>The data for testing after training is [1, 0, 0] and the expected output is 1.
+<br />Result is:
+<br /><b>[0.99619533]</b>
+<br /> Congratulations! The output is equal to <b>0.99619533</b> which is very close to 1.</p>
+
+<p><br /></p>
+
+<h3 id="analysis-of-results"><a id="analysis-of-results">Analysis of results</a></h3>
+<p>Analysing obtained results and building the figure with <b>Outputs</b> and number of <b>Iterations</b> in order to understand the raising accuracy of output and needed amount of iterations for training.
+<br />Consider following part of the code:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Analysis of results</span>
+<span class="c"># It is better to comment two lines in the class 'ThreeLayersNeuralNetwork' before analysis:</span>
+<span class="s">'''
+if (i </span><span class="si">% 500</span><span class="s">) == 0:
+    print('Final error after', i, 'iterations =', np.mean(np.abs(layer_2_error)))
+'''</span>
+<span class="c"># In order not to show extra information</span>
+
+<span class="c"># Finding needed amount of iterations to reach curtain accuracy</span>
+<span class="c"># Creating list to store the resulting data</span>
+<span class="n">lst_result</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c"># Creating list to store the number of iterations for each experiment</span>
+<span class="n">lst_iterations</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c"># Creating a loop and collecting resulted output data with different numbers of iterations</span>
+<span class="c"># From 10 to 1000 with step=10</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="c"># Creating new instance of the NN class each time</span>
+    <span class="c"># In order not to be influenced from the previous training results</span>
+    <span class="n">three_layers_neural_network_analysis</span> <span class="o">=</span> <span class="n">ThreeLayersNeuralNetwork</span><span class="p">()</span>
+
+    <span class="c"># Starting the training process with number of repetitions equals to i</span>
+    <span class="n">three_layers_neural_network_analysis</span><span class="o">.</span><span class="n">training_process</span><span class="p">(</span><span class="n">input_set_for_training</span><span class="p">,</span> <span class="n">output_set_for_training</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="c"># Collecting number of iterations in the list</span>
+    <span class="n">lst_iterations</span> <span class="o">+=</span> <span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c"># Now we run trained NN with data for testing and obtain the result</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">three_layers_neural_network_analysis</span><span class="o">.</span><span class="n">run_nn</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
+
+    <span class="c"># Collecting resulted outputs in the list</span>
+    <span class="n">lst_result</span> <span class="o">+=</span> <span class="p">[</span><span class="n">output</span><span class="p">]</span>
+
+
+<span class="c"># Plotting the results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lst_iterations</span><span class="p">,</span> <span class="n">lst_result</span><span class="p">,</span> <span class="s">'b'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">'Iterations via Output'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Iterations'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Output'</span><span class="p">)</span>
+
+<span class="c"># Showing the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>As a result we get our figure:</p>
+
+<p><img src="https://github.com/sichkar-valentyn/Neural_Networks_for_Computer_Vision/blob/master/images/figure_2.png" alt="Figure_2" /></p>
+
+<p>We can see that after <b>300 iterations</b> the accuracy doesn’t change too much.
+<br />But how to calculate the exact number of iterations to achieve needed accuracy?
+<br />Consider final part of the code:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Find exact number of iterations in order to reach specific accuracy</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c"># Iterations</span>
+<span class="n">output</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c"># Output</span>
+<span class="c"># Creating a while loop and training NN</span>
+<span class="c"># Stop when output reached accuracy 0.99</span>
+<span class="k">while</span> <span class="n">output</span> <span class="o">&lt;</span> <span class="mf">0.99</span><span class="p">:</span>
+    <span class="c"># Creating new instance of the NN class each time</span>
+    <span class="c"># In order not to be influenced from the previous training results above</span>
+    <span class="n">three_layers_neural_network_analysis_1</span> <span class="o">=</span> <span class="n">ThreeLayersNeuralNetwork</span><span class="p">()</span>
+
+    <span class="c"># Starting the training process with number of repetitions equals to i</span>
+    <span class="n">three_layers_neural_network_analysis_1</span><span class="o">.</span><span class="n">training_process</span><span class="p">(</span><span class="n">input_set_for_training</span><span class="p">,</span> <span class="n">output_set_for_training</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="c"># Now we run trained NN with data for testing and obtain the result</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">three_layers_neural_network_analysis_1</span><span class="o">.</span><span class="n">run_nn</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
+
+    <span class="c"># Increasing the number of iterations</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">10</span>
+
+
+<span class="c"># Showing the found number of iterations for accuracy 0.99</span>
+<span class="k">print</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Number of iterations to reach accuracy 0.99 is'</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>  <span class="c"># Needed numbers of iterations is equal to 1010</span>
+</code></pre></div></div>
+
+<p>As we can see, to reach the accuracy <b>0.99</b> we need <b>1010</b> iterations.</p>
+
+<p>Full code is available here: <a href="https://github.com/sichkar-valentyn/Neural_Networks_for_Computer_Vision/blob/master/Codes/Intro_simple_three_layers_NN.py">Intro_simple_three_layers_NN.py</a></p>
+
+<p><br /></p>
+
+<h3 id="mit-license">MIT License</h3>
+<h3 id="copyright-c-2018-valentyn-n-sichkar">Copyright (c) 2018 Valentyn N Sichkar</h3>
+<h3 id="githubcomsichkar-valentyn">github.com/sichkar-valentyn</h3>
+<h3 id="reference-to">Reference to:</h3>
+<p>Valentyn N Sichkar. Neural Networks for computer vision in autonomous vehicles and robotics // GitHub platform. DOI: 10.5281/zenodo.1317904</p>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p class="copyright">Backpropagation maintained by <a href="https://github.com/sichkar-valentyn">sichkar-valentyn</a></p>
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+  </body>
+</html>
